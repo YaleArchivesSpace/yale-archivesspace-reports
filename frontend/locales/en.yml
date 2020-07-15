@@ -1,0 +1,30 @@
+en:
+  reports:
+    resource_acquisitions_report:
+      title: Acquisitions by Date
+      description: Custom report to retrieve acquisitions data for the current repository in a given time period.
+      identifier_prefix: Resource
+    resource_born_digital_materials:
+      title: Born Digital Materials
+      description: Custom report to retrieve born-digital materials for the current repository.
+      identifier_prefix: Resource
+    resource_distinct_box_list:
+      title: Box List
+      description: Custom report to retrieve a box list for a given call number.
+      identifier_prefix: Resource
+    resource_expiring_restrictions:
+      title: Expiring Restrictions
+      description: Custom report to retrieve timebound restrictions for the current repository in a given time period.
+      identifier_prefix: Resource
+    resource_preservica_materials:
+      title: Preservica Materials Not in Access System
+      description: Custom report of materials in the current repositor which are in Preservica but are not in an access system
+      identifier_prefix: Resource
+    resource_materials_in_access_system:
+      title: Materials in Access System
+      description: Custom report of all materials which are available in an online access system.
+      identifier_prefix: Resource
+    top_container_unassociated_containers:
+      title: Unassociated Containers
+      description: Custom report of all unassociated containers in the current repository
+      identifier_prefix: Top Container
