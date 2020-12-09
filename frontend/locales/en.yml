@@ -36,3 +36,13 @@ en:
       title: Unassociated Containers
       description: Custom report of all unassociated containers in the current repository
       identifier_prefix: Top Container
+
+    # looks like we'll need to be careful with the column names, or add a bunch of stuff here???
+    # perhaps if translation missing, find a way to convert by captilizing and replaces _-, etc. with a space?
+    # adding these here based on the call-number / box listing report.
+    translation_defaults:
+      resource_uri: Resource URI
+      resource_title: Title
+      call_number: Call number
+      top_container_uri: Container URI
+      container_number: Container number
