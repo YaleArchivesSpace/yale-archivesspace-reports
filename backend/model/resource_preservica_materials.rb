@@ -45,7 +45,7 @@ class ResourcePreservicaMaterials < AbstractReport
       LEFT JOIN enumeration_value ev on ev.id = extent.extent_type_id
       LEFT JOIN archival_object ao2 on ao2.id = ao.parent_id
       LEFT JOIN resource on ao.root_record_id = resource.id
-      WHERE do.repo_id = 12
+      WHERE do.repo_id = #{db.literal(@repo_id)}
       AND ao.id is not null
       AND fv.file_uri like '%preservica%'
       GROUP BY ao.id

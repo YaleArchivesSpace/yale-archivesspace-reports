@@ -23,7 +23,7 @@ class ResourceMaterialsInAccessSystem < AbstractReport
         LEFT JOIN archival_object ao2 on ao2.id = ao.parent_id
         LEFT JOIN resource on ao.root_record_id = resource.id
         WHERE fv.id is not null
-        AND do.repo_id = 12
+        AND do.repo_id = #{db.literal(@repo_id)}
         AND ao.id is not null
         AND fv.file_uri not like '%preservica%'
         AND fv.file_uri not like '%https://libweb.library.yale.edu/pui-assets/access_thumb.jpg%'
