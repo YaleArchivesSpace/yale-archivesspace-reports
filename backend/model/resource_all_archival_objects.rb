@@ -1,4 +1,4 @@
-class DigitalObjectPreservicaLinks < AbstractReport
+class ResourceAllArchivalObjects < AbstractReport
   register_report(
     params: [["call_number", "callnumber", "The resource identifier"]]
   )
@@ -23,11 +23,13 @@ class DigitalObjectPreservicaLinks < AbstractReport
       , CONCAT('/repositories/', ao.repo_id, '/resources/', ao.root_record_id) as resource_uri
       , CONCAT('/repositories/', ao.repo_id) as repo_uri
       , CONCAT('/repositories/', ao2.repo_id, '/archival_objects/', ao2.id) as parent_uri
+      , resource.title as resource_title
       , ao.title as archival_object_title
       , ev.value as archival_object_level
     FROM archival_object ao
     LEFT JOIN enumeration_value ev on ev.id = ao.level_id
     LEFT JOIN archival_object ao2 on ao2.id = ao.parent_id
+    JOIN resource on resource.id = ao.root_record_id
     WHERE resource.repo_id = #{db.literal(@repo_id)}
     AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') = #{db.literal(@call_number)}
     SOME_SQL

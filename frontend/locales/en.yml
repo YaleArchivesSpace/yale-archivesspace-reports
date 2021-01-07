@@ -4,8 +4,12 @@ en:
       title: Preservica Access Copy Links
       description: Custom report to retrieve links to digital access copies of archival materials in Preservica.
       identifier_prefix: Digital Object
+    digital_object_preservica_links_hierarchy:
+      title: Preservica Access Copy Links with Hierarchy
+      description: Custom report to retrieve links to digital access copies of archival materials in Preservica. Includes object hierarchy (slower).
+      identifier_prefix: Digital Object
     resource_all_archival_objects:
-      title: All archival objects
+      title: All Archival Objects
       description: Custom report to retrieve data about archival objects associated with a resource.
       identifier_prefix: Resource
     resource_acquisitions_report:
