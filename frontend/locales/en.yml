@@ -20,6 +20,10 @@ en:
       title: Acquisitions by Date
       description: Custom report to retrieve acquisitions data for the current repository in a given time period.
       identifier_prefix: Resource
+    resource_born_digital_file_level_minimum:
+      title: Born Digital File Level Minimum
+      description: Custom report to retrieve data which corresponds to the BDAWG file level minimum for a given collection.
+      identifier_prefix: Resource
     resource_born_digital_materials:
       title: Born Digital Materials
       description: Custom report to retrieve born-digital materials for the current repository.

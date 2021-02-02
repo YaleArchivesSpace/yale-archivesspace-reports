@@ -39,6 +39,7 @@ class ResourceAllArchivalObjects < AbstractReport
     WHERE resource.repo_id = #{db.literal(@repo_id)}
     AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') = #{db.literal(@call_number)}
     GROUP BY ao.id
+    ORDER BY ao.parent_id, ao.position
     SOME_SQL
   end
 
