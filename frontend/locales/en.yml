@@ -1,8 +1,16 @@
 en:
   reports:
+    digital_object_preservica_links:
+      title: Preservica Access Copy Links
+      description: Custom report to retrieve links to digital access copies of archival materials in Preservica.
+      identifier_prefix: Digital Object
     resource_acquisitions_report:
       title: Acquisitions by Date
       description: Custom report to retrieve acquisitions data for the current repository in a given time period.
+      identifier_prefix: Resource
+    resource_all_archival_objects:
+      title: All Archival Objects
+      description: Custom report to retrieve data about archival objects associated with a resource.
       identifier_prefix: Resource
     resource_born_digital_materials:
       title: Born Digital Materials
