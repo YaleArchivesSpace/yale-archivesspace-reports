@@ -23,12 +23,14 @@ class ResourceBornDigitalFileLevelMinimum < AbstractReport
       , CONCAT('/repositories/', ao.repo_id, '/resources/', ao.root_record_id) as resource
       , CONCAT('/repositories/', ao.repo_id, '/archival_objects/', ao.id) as archival_object_uri
       , ao.title as title
-      , GROUP_CONCAT(extent.number SEPARATOR '; ') as extent_number
-      , GROUP_CONCAT(ev2.value SEPARATOR '; ') as extent_type
-      , GROUP_CONCAT(ev3.value SEPARATOR '; ') as extent_portion
-      , GROUP_CONCAT(extent.container_summary SEPARATOR '; ') as extent_container_summary
-      , GROUP_CONCAT(byte_extents.bytes SEPARATOR '; ') as byte_size
-      , GROUP_CONCAT(byte_extents.byte_summary SEPARATOR '; ') as byte_size_container_summary
+      , extent_data.extent_number_1
+      , extent_data.extent_type_1
+      , extent_data.extent_portion_1
+      , extent_data.extent_summary_1
+      , extent_data.extent_number_2
+      , extent_data.extent_type_2
+      , extent_data.extent_portion_2
+      , extent_data.extent_summary_2
       , GROUP_CONCAT(date.expression SEPARATOR '; ') as date_expression
       , GROUP_CONCAT(date.begin SEPARATOR '; ') as date_begin
       , GROUP_CONCAT(date.end SEPARATOR '; ') as date_end
@@ -85,14 +87,27 @@ class ResourceBornDigitalFileLevelMinimum < AbstractReport
            JOIN archival_object ao on ao.id = note.archival_object_id
            WHERE ao.repo_id = #{db.literal(@repo_id)}
              AND note.notes like '%accessrestrict%') as access_notes on access_notes.archival_object_id = ao.id
-    LEFT JOIN (SELECT extent.archival_object_id
-            , ev.value as bytes
-            , extent.container_summary as byte_summary
-          FROM extent
-          LEFT JOIN enumeration_value ev on ev.id = extent.extent_type_id
-          JOIN archival_object ao on ao.id = extent.archival_object_id
-          WHERE ev.value = 'bytes'
-          AND ao.repo_id = #{db.literal(@repo_id)}) as byte_extents on byte_extents.archival_object_id = ao.id
+    LEFT JOIN (SELECT ao_id
+                , SUBSTRING_INDEX(SUBSTRING_INDEX(extent_numbers, '; ', 1), '; ', -1) as extent_number_1
+                , SUBSTRING_INDEX(SUBSTRING_INDEX(extent_types, '; ', 1), '; ', -1) as extent_type_1
+                , SUBSTRING_INDEX(SUBSTRING_INDEX(extent_portions, '; ', 1), '; ', -1) as extent_portion_1
+                , SUBSTRING_INDEX(SUBSTRING_INDEX(extent_summaries, '; ', 1), '; ', -1) as extent_summary_1
+                , If(length(extent_numbers) - length(replace(extent_numbers, '; ', ''))>1, SUBSTRING_INDEX(SUBSTRING_INDEX(extent_numbers, '; ', 2), '; ', -1) ,NULL) as extent_number_2
+                , If(length(extent_types) - length(replace(extent_types, '; ', ''))>1, SUBSTRING_INDEX(SUBSTRING_INDEX(extent_types, '; ', 2), '; ', -1) ,NULL) as extent_type_2  
+                , If(length(extent_portions) - length(replace(extent_portions, '; ', ''))>1, SUBSTRING_INDEX(SUBSTRING_INDEX(extent_portions, '; ', 2), '; ', -1) ,NULL) as extent_portion_2
+                , If(length(extent_summaries) - length(replace(extent_summaries, '; ', ''))>1, SUBSTRING_INDEX(SUBSTRING_INDEX(extent_summaries, '; ', 2), '; ', -1) ,NULL) as extent_summary_2
+              FROM 
+              (SELECT ao.id as ao_id
+                , GROUP_CONCAT(extent.number SEPARATOR '; ') as extent_numbers
+                , GROUP_CONCAT(ev.value SEPARATOR '; ') as extent_types
+                , GROUP_CONCAT(ev2.value SEPARATOR '; ') as extent_portions
+                , GROUP_CONCAT(extent.container_summary SEPARATOR '; ') as extent_summaries
+              FROM extent
+              JOIN archival_object ao on ao.id = extent.archival_object_id
+              LEFT JOIN enumeration_value ev on ev.id = extent.extent_type_id
+              LEFT JOIN enumeration_value ev2 on ev2.id = extent.portion_id
+              WHERE ao.repo_id = 12
+              GROUP BY ao.id) as base_extent_table) as extent_data on extent_data.ao_id = ao.id
     WHERE resource.repo_id = #{db.literal(@repo_id)}
     AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') = #{db.literal(@call_number)}
     GROUP BY ao.id
