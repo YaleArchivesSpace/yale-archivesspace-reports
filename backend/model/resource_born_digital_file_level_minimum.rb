@@ -58,25 +58,25 @@ class ResourceBornDigitalFileLevelMinimum < AbstractReport
           , JSON_UNQUOTE(JSON_EXTRACT(CAST(CONVERT(note.notes using utf8) as json), '$.subnotes[0].content')) as notes
          FROM note
          JOIN archival_object ao on ao.id = note.archival_object_id
-         WHERE ao.repo_id = 12
+         WHERE ao.repo_id = #{db.literal(@repo_id)}
          AND note.notes like '%scopecontent%') as scope_notes on scope_notes.archival_object_id = ao.id
     LEFT JOIN (SELECT note.archival_object_id
           , JSON_UNQUOTE(JSON_EXTRACT(CAST(CONVERT(note.notes using utf8) as json), '$.subnotes[0].content')) as notes
          FROM note
          JOIN archival_object ao on ao.id = note.archival_object_id
-         WHERE ao.repo_id = 12
+         WHERE ao.repo_id = #{db.literal(@repo_id)}
          AND note.notes like '%processinfo%') as process_notes on process_notes.archival_object_id = ao.id
     LEFT JOIN (SELECT note.archival_object_id
           , JSON_UNQUOTE(JSON_EXTRACT(CAST(CONVERT(note.notes using utf8) as json), '$.subnotes[0].content')) as notes
          FROM note
          JOIN archival_object ao on ao.id = note.archival_object_id
-         WHERE ao.repo_id = 12
+         WHERE ao.repo_id = #{db.literal(@repo_id)}
          AND note.notes like '%otherfindaid%') as otherfindaid_notes on otherfindaid_notes.archival_object_id = ao.id
     LEFT JOIN (SELECT note.archival_object_id
           , JSON_UNQUOTE(JSON_EXTRACT(CAST(CONVERT(note.notes using utf8) as json), '$.subnotes[0].content')) as notes
          FROM note
          JOIN archival_object ao on ao.id = note.archival_object_id
-         WHERE ao.repo_id = 12
+         WHERE ao.repo_id = #{db.literal(@repo_id)}
          AND note.notes like '%"type":"arrangement"%') as arrangement_notes on arrangement_notes.archival_object_id = ao.id
     LEFT JOIN (SELECT note.archival_object_id
               , JSON_UNQUOTE(JSON_EXTRACT(CAST(CONVERT(note.notes using utf8) as json), '$.subnotes[0].content')) as notes
@@ -106,7 +106,7 @@ class ResourceBornDigitalFileLevelMinimum < AbstractReport
               JOIN archival_object ao on ao.id = extent.archival_object_id
               LEFT JOIN enumeration_value ev on ev.id = extent.extent_type_id
               LEFT JOIN enumeration_value ev2 on ev2.id = extent.portion_id
-              WHERE ao.repo_id = 12
+              WHERE ao.repo_id = #{db.literal(@repo_id)}
               GROUP BY ao.id) as base_extent_table) as extent_data on extent_data.ao_id = ao.id
     WHERE resource.repo_id = #{db.literal(@repo_id)}
     AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') = #{db.literal(@call_number)}
