@@ -28,6 +28,10 @@ en:
       title: Born Digital Materials
       description: Custom report to retrieve born-digital materials for the current repository.
       identifier_prefix: Resource
+    resource_dacs_minimum:
+      title: DACS Minimnum
+      description: Custom report to perform DACS collection-level minimum analysis on the current repository
+      identifier_prefix: Resource
     resource_distinct_box_list:
       title: Box List
       description: Custom report to retrieve a box list for a given call number.

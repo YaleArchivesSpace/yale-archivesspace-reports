@@ -56,7 +56,8 @@ class DigitalObjectPreservicaLinksMultiple < AbstractReport
     where file_uri like '%preservica.library.yale.edu/api/entity/digitalFileContents%'
     AND resource.repo_id = #{db.literal(@repo_id)}
     #how to have multiple call numbers....
-    AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') in (#{db.literal(@call_number)})
+    AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') in (#{db.literal(@call_number)}
+    )
     SOME_SQL
   end
 
