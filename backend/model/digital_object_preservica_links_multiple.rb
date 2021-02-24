@@ -7,8 +7,8 @@ class DigitalObjectPreservicaLinksMultiple < AbstractReport
     super
 
     @call_number = params["call_number"].to_s
+    @call_number = @call_number.split(', ')
 
-    #info[:scoped_by_date_range] = "#{@from} & #{@to}"
   end
 
   def query
@@ -56,8 +56,9 @@ class DigitalObjectPreservicaLinksMultiple < AbstractReport
     where file_uri like '%preservica.library.yale.edu/api/entity/digitalFileContents%'
     AND resource.repo_id = #{db.literal(@repo_id)}
     #how to have multiple call numbers....
-    AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') in (#{db.literal(@call_number)}
-    )
+    AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') 
+    in #{db.literal(@call_number)}
+    ORDER BY resource.identifier
     SOME_SQL
   end
 
