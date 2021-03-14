@@ -8,6 +8,8 @@ class ResourceDistinctBoxList < AbstractReport
 
     @call_number = params["call_number"].to_s
 
+    puts @call_number
+
     #info[:scoped_by_date_range] = "#{@from} & #{@to}"
   end
 

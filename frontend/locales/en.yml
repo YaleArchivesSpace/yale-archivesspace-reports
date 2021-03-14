@@ -1,5 +1,19 @@
 en:
   reports:
+    parameters:
+      from: From
+      from_tooltip:
+      to: To
+      locations: Locations
+      scope_by_date: Scope by Date
+      template: Template
+      call_number: Call Number
+    formats:
+      json: JSON
+      csv: CSV
+      pdf: PDF
+      html: HTML
+      rtf: RTF
     digital_object_preservica_links:
       title: Preservica Access Copy Links
       description: Custom report to retrieve links to digital access copies of archival materials in Preservica.
@@ -7,10 +21,6 @@ en:
     digital_object_preservica_links_hierarchy:
       title: Preservica Access Copy Links with Hierarchy
       description: Custom report to retrieve links to digital access copies of archival materials in Preservica. Includes object hierarchy (slower).
-      identifier_prefix: Digital Object
-    digital_object_preservica_links_multiple:
-      title: Preservica Access Copy Links, Multiple Collections
-      description: Custom report to retrieve links to digital access copies of archival materials in Preservica. Can include multiple call numbers separated by a comma.
       identifier_prefix: Digital Object
     resource_all_archival_objects:
       title: All Archival Objects
@@ -29,7 +39,7 @@ en:
       description: Custom report to retrieve born-digital materials for the current repository.
       identifier_prefix: Resource
     resource_dacs_minimum:
-      title: DACS Minimnum
+      title: DACS Minimum
       description: Custom report to perform DACS collection-level minimum analysis on the current repository
       identifier_prefix: Resource
     resource_distinct_box_list:
