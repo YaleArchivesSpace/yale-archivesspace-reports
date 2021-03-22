@@ -47,6 +47,7 @@ class DigitalObjectPreservicaLinks < AbstractReport
               "https://preservica.library.yale.edu/api/entity/digitalFileContents/", 
                 "https://preservica.library.yale.edu/explorer/explorer.html#render:10&"), "&0") as render_in_preservica_link
       , do.title as do_title
+      , do.digital_object_id as deliverable_unit
       , CONCAT(replace(do.title, '[Preservica] ', ''), '.', ev.value) as filename
       , CONCAT('/repositories/', do.repo_id, '/digital_objects/', do.id) as do_uri
     FROM file_version fv
