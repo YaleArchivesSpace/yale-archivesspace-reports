@@ -14,6 +14,7 @@ en:
       pdf: PDF
       html: HTML
       rtf: RTF
+      xlsx: XLSX
     digital_object_preservica_links:
       title: Preservica Access Copy Links
       description: Custom report to retrieve links to digital access copies of archival materials in Preservica.
