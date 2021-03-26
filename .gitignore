@@ -1,4 +1,5 @@
 # Compiled python modules.
+
 *.pyc
 
 # Setuptools distribution folder.
@@ -26,3 +27,9 @@
 *.todo.MD
 
 /authority_reconciliation/data/
+
+# gem stuff
+
+Gemfile.lock
+
+/gems/
