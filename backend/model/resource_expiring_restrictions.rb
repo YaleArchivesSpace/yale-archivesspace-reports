@@ -8,7 +8,7 @@ class ResourceExpiringRestrictions < AbstractReport
 
     end_date = params['end'] || Time.now.to_s
 
-    @from = DateTime.parse(end_date).to_time.strftime('%Y-%m-%d %H:%M:%S')
+    @end = DateTime.parse(end_date).to_time.strftime('%Y-%m-%d %H:%M:%S')
 
   end
 
@@ -30,7 +30,7 @@ class ResourceExpiringRestrictions < AbstractReport
       JOIN note on note.archival_object_id = ao.id
       WHERE rr.end is not null
       and r2.identifier like '%RU%'
-      and rr.end < #{db.literal(@from.split(' ')[0].gsub('-', ''))}
+      and rr.end < #{db.literal(@end.split(' ')[0].gsub('-', ''))}
       UNION ALL
       SELECT ev.value as rights_restriction_type
            , rr.begin
@@ -46,7 +46,7 @@ class ResourceExpiringRestrictions < AbstractReport
       LEFT JOIN enumeration_value ev on ev.id = rrt.restriction_type_id
       WHERE rr.end is not null
       and r.identifier like '%RU%'
-      and rr.end < #{db.literal(@from.split(' ')[0].gsub('-', ''))}%
+      and rr.end < #{db.literal(@end.split(' ')[0].gsub('-', ''))}
     SOME_SQL
   end
 

@@ -1,13 +1,13 @@
 require 'rubyXL'
 require 'rubyXL/convenience_methods/workbook'
 require 'rubyXL/convenience_methods/worksheet'
+require 'rubyXL/convenience_methods/cell'
 
 # This file contains overrides for methods in the following files:
 # backend/app/lib/reports/report_generator.rb
 # backend/app/model/reports/report_manager.rb
 
 class ReportGenerator
-  # attr_accessor :xlsx
   attr_accessor :report
   attr_accessor :sub_report_data_stack
   attr_accessor :sub_report_code_stack
@@ -65,7 +65,12 @@ class ReportGenerator
       starting_column = -1
       result.each do |key, value|
         starting_column +=1
-        worksheet.add_cell(starting_row, starting_column, value)
+        cell_value = worksheet.add_cell(starting_row, starting_column, value)
+        # set correct formatting for date values: add more?
+        if ['create_time', 'user_mtime', 'end', 'begin', 'accession_date', 'resource_create_time'].include? key.to_s
+          cell_value.set_number_format('yyyy-mm-dd')
+          cell_value.change_contents(value)
+        end  
       end
     end
     file.write(xlsx.stream.read)
