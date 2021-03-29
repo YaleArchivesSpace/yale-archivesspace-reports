@@ -29,7 +29,6 @@ class ResourceExpiringRestrictions < AbstractReport
       LEFT JOIN enumeration_value ev on ev.id = rrt.restriction_type_id
       JOIN note on note.archival_object_id = ao.id
       WHERE rr.end is not null
-      and r2.identifier like '%RU%'
       and rr.end < #{db.literal(@end.split(' ')[0].gsub('-', ''))}
       UNION ALL
       SELECT ev.value as rights_restriction_type
@@ -45,7 +44,6 @@ class ResourceExpiringRestrictions < AbstractReport
       JOIN resource r on r.id = rr.resource_id
       LEFT JOIN enumeration_value ev on ev.id = rrt.restriction_type_id
       WHERE rr.end is not null
-      and r.identifier like '%RU%'
       and rr.end < #{db.literal(@end.split(' ')[0].gsub('-', ''))}
     SOME_SQL
   end
