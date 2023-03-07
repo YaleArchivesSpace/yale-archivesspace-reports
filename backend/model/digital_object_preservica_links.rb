@@ -18,20 +18,16 @@ class DigitalObjectPreservicaLinks < AbstractReport
   end
 
   def query_string
-  	<<~SOME_SQL
+    <<~SOME_SQL
     SELECT NULL as to_download
       , CONCAT('https://archives.yale.edu/repositories/', ao.repo_id, '/archival_objects/', ao.id) as aay_url
-      , replace(replace(replace(replace(replace(identifier, ',', ''), '"', ''), ']', ''), '[', ''), 'null', '') AS call_number
+      , JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) as call_number
       , resource.title as collection_title
       , ao.display_string as object_title
       , LTRIM(physical_containers.container_statement) as container_statement
       , fv.file_size_bytes as size_in_bytes
       , fv.file_size_bytes/1000000 as size_in_mb
       , ev.value as file_type
-      , file_uri as direct_download_link
-      , CONCAT(replace(fv.file_uri, 
-              "https://preservica.library.yale.edu/api/entity/digitalFileContents/", 
-                "https://preservica.library.yale.edu/explorer/explorer.html#render:10&"), "&0") as render_in_preservica_link
       , do.title as do_title
       , do.digital_object_id as deliverable_unit
       , CONCAT(replace(do.title, '[Preservica] ', ''), '.', ev.value) as filename
@@ -67,14 +63,12 @@ class DigitalObjectPreservicaLinks < AbstractReport
                 LEFT JOIN enumeration_value ev2 on ev2.id = sc.type_2_id
                 LEFT JOIN enumeration_value ev3 on ev3.id = instance.instance_type_id
                 WHERE ao.repo_id = #{db.literal(@repo_id)}
-                AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') 
-                in #{db.literal(@call_number)}
+                AND JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) in #{db.literal(@call_number)}
                 AND (ev3.value is NULL or ev3.value != 'digital_object')
                 GROUP BY ao.id) as physical_containers on physical_containers.ao_id = ao.id
-    where file_uri like '%preservica.library.yale.edu/api/entity/digitalFileContents%'
+    where file_uri like '%preservica.library.yale.edu/explorer/%'
     AND resource.repo_id = #{db.literal(@repo_id)}
-    AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') 
-    in #{db.literal(@call_number)}
+    AND JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) in #{db.literal(@call_number)}
     ORDER BY do.title
     SOME_SQL
   end
