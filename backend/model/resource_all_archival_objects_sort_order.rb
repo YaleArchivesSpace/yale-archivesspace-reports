@@ -17,7 +17,7 @@ class ResourceAllArchivalObjectsSortOrder < AbstractReport
     results
   end
 
-  def get_sort_order(query)
+  # def get_sort_order(query)
 
   def query_string
   	<<~SOME_SQL
@@ -39,7 +39,7 @@ class ResourceAllArchivalObjectsSortOrder < AbstractReport
     LEFT JOIN enumeration_value ev3 on ev3.id = extent.portion_id
     JOIN resource on resource.id = ao.root_record_id
     WHERE resource.repo_id = #{db.literal(@repo_id)}
-    AND replace(replace(replace(replace(replace(resource.identifier, \',\', \'\'), \'\"\', \'\'), \']\', \'\'), \'[\', \'\'), \'null\', \'\') = #{db.literal(@call_number)}
+    AND JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) = #{db.literal(@call_number)}
     GROUP BY ao.id
     ORDER BY ao.parent_id, ao.position
     SOME_SQL
