@@ -17,6 +17,10 @@ en:
       html: HTML
       rtf: RTF
       xlsx: XLSX
+    preservica_access_request:
+      title: Preservica Access Request
+      description: Returns a report with descriptive data and identifiers for ArchivesSpace content in Preservica. Enter one or more call numbers, separated by a comma and a space (i.e. MS 56, RU 595).
+      identifier_prefix: Digital Object
     digital_object_preservica_links:
       title: Copy Order Fulfillment
       description: Returns a report with descriptive data and download links to all Preservica digital access copies available for a given collection(s). Enter one or more call numbers, separated by a comma and a space (i.e. MS 56, RU 595).
