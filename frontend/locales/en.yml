@@ -18,10 +18,10 @@ en:
       rtf: RTF
       xlsx: XLSX
     accession_all_accessions:
-      title: Get All Accessions
+      title: All Accessions
       description: Returns a report with information about accessions.
       identifier_prefix: Accession
-    archival_object_hierarchies:
+    archival_object_hierarchy:
       title: Get Record Hierarchies
       description: Returns a report with hierarchical breadcrumb information about archival object records.
       identifier_prefix: Archival Object

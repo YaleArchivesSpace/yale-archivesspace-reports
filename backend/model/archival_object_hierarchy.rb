@@ -1,4 +1,4 @@
-class DigitalObjectPreservicaLinks < AbstractReport
+class ArchivalObjectHierarchy < AbstractReport
   register_report(
     params: []
   )
@@ -28,6 +28,9 @@ class DigitalObjectPreservicaLinks < AbstractReport
       , JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) AS call_number
       , ao.repo_id as repo_id
       , 0 as lvl
+      , IF(ev.value = 'series', ao.component_id, NULL) as series_cuid
+      , IF(ev.value = 'series', ao.display_string, NULL) as series_title
+      , IF(ev.value = 'series', ao.id, NULL) as series_id
       , CONCAT(ao.display_string, ' (', CONCAT(UPPER(SUBSTRING(ev.value,1,1)),LOWER(SUBSTRING(ev.value,2))), ' ', IF(ao.component_id is not NULL, CAST(ao.component_id as CHAR), "N/A"), ')') as path
     FROM archival_object ao
     LEFT JOIN enumeration_value ev on ev.id = ao.level_id
@@ -43,6 +46,9 @@ class DigitalObjectPreservicaLinks < AbstractReport
       , JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) AS call_number
       , ao.repo_id as repo_id
       , h.lvl + 1 as lvl
+      , h.series_cuid
+      , h.series_title
+      , h.series_id
       , CONCAT(h.path ,' > ', CONCAT(ao.display_string, ' (', CONCAT(UPPER(SUBSTRING(ev.value,1,1)),LOWER(SUBSTRING(ev.value,2))), ' ', IF(ao.component_id is not NULL, CAST(ao.component_id as CHAR), "N/A"), ')')) AS path
     FROM hierarchies h
     JOIN archival_object ao on h.id = ao.parent_id
@@ -50,11 +56,16 @@ class DigitalObjectPreservicaLinks < AbstractReport
     LEFT JOIN enumeration_value ev on ev.id = ao.level_id
     WHERE JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) in #{db.literal(@call_number)})
     SELECT id
-      , display_string
       , parent_id
+      , series_id
       , root_record_id
       , repo_id
       , lvl
+      , call_number
+      , resource_title
+      , series_cuid
+      , series_title
+      , display_string
       , CONCAT(resource_title, ' (Resource ', call_number, ') > ', path) as full_path
     FROM hierarchies;
     SOME_SQL
