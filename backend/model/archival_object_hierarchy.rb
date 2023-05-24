@@ -1,6 +1,6 @@
 class ArchivalObjectHierarchy < AbstractReport
   register_report(
-    params: []
+    params: [["call_number", "callnumber", "The resource identifier(s)"]]
   )
 
   def initialize(params, job, db)
@@ -54,7 +54,7 @@ class ArchivalObjectHierarchy < AbstractReport
     JOIN archival_object ao on h.id = ao.parent_id
     JOIN resource on resource.id  = ao.root_record_id
     LEFT JOIN enumeration_value ev on ev.id = ao.level_id
-    WHERE JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) in #{db.literal(@call_number)})
+    WHERE JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) in #{db.literal(@call_number)}
     SELECT id
       , parent_id
       , series_id
