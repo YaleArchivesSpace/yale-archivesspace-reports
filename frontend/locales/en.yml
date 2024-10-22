@@ -19,6 +19,14 @@ en:
       html: HTML
       rtf: RTF
       xlsx: XLSX
+     accession_all_accessions:
+      title: All Accessions
+      description: Returns a report with information about accessions.
+      identifier_prefix: Accession
+    archival_object_hierarchy:
+      title: Get Record Hierarchies
+      description: Returns a report with hierarchical breadcrumb information about archival object records.
+      identifier_prefix: Archival Object
     digital_object_preservica_links:
       title: Copy Order Fulfillment
       description: Returns a report with descriptive data and download links to all Preservica digital access copies available for a given collection(s). Enter one or more call numbers, separated by a comma and a space (i.e. MS 56, RU 595).
@@ -26,6 +34,10 @@ en:
     resource_all_archival_objects:
       title: All Archival Objects
       description: Custom report to retrieve data about archival objects associated with a resource.
+      identifier_prefix: Resource
+    resource_all_archival_objects_sort_order:
+      title: All Archival Objects, With Sort Order
+      description: Custom report to retrieve data about archival objects associated with a resource, including sort order.
       identifier_prefix: Resource
     resource_acquisitions_report:
       title: Acquisitions by Date
