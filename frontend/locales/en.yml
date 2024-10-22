@@ -19,7 +19,7 @@ en:
       html: HTML
       rtf: RTF
       xlsx: XLSX
-     accession_all_accessions:
+    accession_all_accessions:
       title: All Accessions
       description: Returns a report with information about accessions.
       identifier_prefix: Accession
