@@ -10,6 +10,11 @@ en:
       template: Template
       call_number: Call Number
       call_number_tooltip: Enter one more more call numbers separated by a comma and a space
+      building: Building
+      room_name: Room Name
+      parent: Parent Object ID
+      oid: Digital Object Identifier
+      url: File URL
     formats:
       json: JSON
       csv: CSV
@@ -101,7 +106,22 @@ en:
       title: Unassociated Containers
       description: Custom report of all unassociated containers in the current repository.
       identifier_prefix: Top Container
-
+    top_container_rooms:
+      title: Top Containers by Room
+      description: Custom Report of Top Containers in a specific Room.
+      identifier_prefix: Top Container
+    expired_access_notes:
+      title: Expired Access Notes
+      description: Report of Resources and Archival Objects with 'Conditions Governing Access' notes with expired machine actionable end-dates.
+      identifier_prefix: Archival Object
+    digital_object_links_report:
+      title: Digital Object Report
+      description: Custom Report of Digital Objects and URLs that allows keyword searching on urls, parent ids, and doi.
+      identifier_prefix: Digital Object
+    archival_object_preservica_access_request:
+      title: Preservica Access Request
+      description: Returns a list of record with associated Preservica digital objects. Supports staff requests for digitized materials in Preservica
+      
     # looks like we'll need to be careful with the column names, or add a bunch of stuff here???
     # perhaps if translation missing, find a way to convert by captilizing and replaces _-, etc. with a space?
     # adding these here based on the call-number / box listing report.
