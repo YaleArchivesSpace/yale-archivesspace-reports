@@ -118,9 +118,10 @@ en:
       title: Digital Object Report
       description: Custom Report of Digital Objects and URLs that allows keyword searching on urls, parent ids, and doi.
       identifier_prefix: Digital Object
-    archival_object_preservica_access_request:
-      title: Preservica Access Request
-      description: Returns a list of record with associated Preservica digital objects. Supports staff requests for digitized materials in Preservica
+    preservica_object_report:
+      title: Preservica Object Report
+      description: Report of archival objects containing both a DCS and Preservica Digital Object associated with a call number.
+      identifier_prefix: Resource
       
     # looks like we'll need to be careful with the column names, or add a bunch of stuff here???
     # perhaps if translation missing, find a way to convert by captilizing and replaces _-, etc. with a space?
