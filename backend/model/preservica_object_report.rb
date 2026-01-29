@@ -73,13 +73,7 @@ class PreservicaObjectReport < AbstractReport
                 AND (ev3.value is NULL or ev3.value != 'digital_object')
                 GROUP BY ao.id) as physical_containers on physical_containers.ao_id = ao.id
       WHERE r.id = #{db.literal(@repo_id)}
-    SOME_SQL
-
-    if @call_number.present?
-      query += " AND JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) LIKE #{db.literal("%#{@call_number}%")}"
-    end
-
-    query += <<~SOME_SQL
+      AND JSON_UNQUOTE(JSON_EXTRACT(resource.identifier, '$[0]')) LIKE #{db.literal("%#{@call_number}%")}"
       GROUP BY ao.id
       HAVING preservica_count > 0 OR dcs_count > 0 OR aviary_count > 0
       ORDER BY r.name, ao.title
