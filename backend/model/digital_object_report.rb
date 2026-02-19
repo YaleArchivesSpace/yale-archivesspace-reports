@@ -1,4 +1,4 @@
-class PreservicaObjectReport < AbstractReport
+class DigitalObjectReport < AbstractReport
   register_report(
     params: [["call_number", "callnumber", "The resource identifier(s)"]]
   )
