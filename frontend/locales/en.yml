@@ -119,7 +119,7 @@ en:
       description: Custom Report of Digital Objects and URLs that allows keyword searching on urls, parent ids, and doi.
       identifier_prefix: Digital Object
     preservica_object_report:
-      title: Preservica Object Report
+      title: Digital Object Report
       description: Report of archival objects containing both a DCS and Preservica Digital Object associated with a call number.
       identifier_prefix: Resource
       
