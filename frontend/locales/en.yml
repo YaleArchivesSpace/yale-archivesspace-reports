@@ -120,7 +120,7 @@ en:
       identifier_prefix: Digital Object
     digital_object_report:
       title: Digital Object Report
-      description: Report of archival objects containing both a DCS and Preservica Digital Object associated with a call number.
+      description: Report of all DCS, Preservica, or Aviary Digital Objects on an Archival Object associated with a call number.
       identifier_prefix: Resource
       
     # looks like we'll need to be careful with the column names, or add a bunch of stuff here???
