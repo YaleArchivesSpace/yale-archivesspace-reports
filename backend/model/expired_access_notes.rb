@@ -30,7 +30,8 @@ class ExpiredAccessNotes < AbstractReport
       WHERE JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.type')) like 'accessrestrict%'
       AND JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')) is not null
       AND n.archival_object_id is not NULL
-      AND ao.repo_id = #{db.literal(@repo_id)} 
+      AND ao.repo_id = #{db.literal(@repo_id)}
+	  AND r.identifier like #{db.literal("%#{@call_number}%")}
     SOME_SQL
     if @to && @from
       query += " AND (STR_TO_DATE(JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')), '%Y-%m-%d') BETWEEN #{db.literal(@from)} AND #{db.literal(@to)}) "
@@ -38,9 +39,6 @@ class ExpiredAccessNotes < AbstractReport
       query += " AND (STR_TO_DATE(JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')), '%Y-%m-%d') >= #{db.literal(@from)}) "
     elsif @to
       query += " AND (STR_TO_DATE(JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')), '%Y-%m-%d') <= #{db.literal(@to)}) "
-    end
-    if @call_number.present?
-      query += " AND r.identifier like #{db.literal("%#{@call_number}%")} "
     end
     query += <<~SOME_SQL
       UNION ALL
@@ -54,6 +52,7 @@ class ExpiredAccessNotes < AbstractReport
       AND JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')) is not null
       AND n.resource_id is not NULL
       AND r.repo_id = #{db.literal(@repo_id)}
+	  AND r.identifier like #{db.literal("%#{@call_number}%")}
 			SOME_SQL
       if @to && @from
         query += " AND (STR_TO_DATE(JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')), '%Y-%m-%d') BETWEEN #{db.literal(@from)} AND #{db.literal(@to)}) "
@@ -61,9 +60,6 @@ class ExpiredAccessNotes < AbstractReport
         query += " AND (STR_TO_DATE(JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')), '%Y-%m-%d') >= #{db.literal(@from)}) "
       elsif @to
         query += " AND (STR_TO_DATE(JSON_UNQUOTE(JSON_EXTRACT(CONVERT(n.notes USING utf8), '$.rights_restriction.end')), '%Y-%m-%d') <= #{db.literal(@to)}) "
-      end
-      if @call_number.present?
-        query += " AND r.identifier like #{db.literal("%#{@call_number}%")}"
       end
     query
   end
