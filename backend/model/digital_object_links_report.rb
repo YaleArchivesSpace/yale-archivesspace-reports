@@ -31,17 +31,10 @@ class DigitalObjectLinksReport < AbstractReport
     LEFT JOIN instance i on i.id = idlr.instance_id
     LEFT JOIN repository r on r.id = do.repo_id
     WHERE do.repo_id = #{db.literal(@repo_id)}
-  SOME_SQL
-  if @url.present?
-    query += " AND fv.file_uri LIKE #{db.literal("%#{@url}%")}"
-  end
-  if @parent.present?
-    query += " AND i.archival_object_id LIKE #{db.literal("%#{@parent}%")}"
-  end
-  if @oid.present?
-    query += " AND do.digital_object_id LIKE #{db.literal("%#{@oid}%")}"
-  end
-    query
+    AND fv.file_uri LIKE #{db.literal("%#{@url}%")}"
+    AND i.archival_object_id LIKE #{db.literal("%#{@parent}%")}"
+    AND do.digital_object_id LIKE #{db.literal("%#{@oid}%")}"
+    SOME_SQL
   end
 
   def page_break
