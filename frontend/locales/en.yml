@@ -115,7 +115,7 @@ en:
       description: Report of Resources and Archival Objects with 'Conditions Governing Access' notes with expired machine actionable end-dates.
       identifier_prefix: Archival Object
     digital_object_links_report:
-      title: Digital Object Report
+      title: Digital Object Links Report
       description: Custom Report of Digital Objects and URLs that allows keyword searching on urls, parent ids, and doi.
       identifier_prefix: Digital Object
     digital_object_report:
