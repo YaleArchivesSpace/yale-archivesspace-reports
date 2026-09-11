@@ -28,16 +28,16 @@ class DigitalObjectReport < AbstractReport
         MAX(ao.display_string) AS 'Archival Object Title',
         COUNT(DISTINCT CASE WHEN fv.file_uri LIKE '%preservica.library%' THEN do.id END) AS preservica_count,
         COUNT(DISTINCT CASE WHEN fv.file_uri LIKE '%collections.library.yale.edu%' THEN do.id END) AS dcs_count,
-        COUNT(DISTINCT CASE WHEN fv.file_uri LIKE '%https://beineckelibrary.aviaryplatform.com%' THEN do.id END) AS aviary_count,
+        COUNT(DISTINCT CASE WHEN fv.file_uri LIKE '%aviaryplatform.com%' THEN do.id END) AS aviary_count,
         GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%preservica.library%' THEN do.title END) AS preservica_titles,
         GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%collections.library.yale.edu%' THEN do.title END) AS dcs_titles,
-        GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%https://beineckelibrary.aviaryplatform.com%' THEN do.title END) AS aviary_titles,
+        GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%aviaryplatform.com%' THEN do.title END) AS aviary_titles,
         GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%preservica.library%' THEN do.digital_object_id END) AS preservica_identifiers,
         GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%collections.library.yale.edu%' THEN do.digital_object_id END) AS dcs_identifiers,
-        GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%https://beineckelibrary.aviaryplatform.com%' THEN do.digital_object_id END) AS aviary_identifiers,
+        GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%aviaryplatform.com%' THEN do.digital_object_id END) AS aviary_identifiers,
         GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%preservica.library%' THEN CONCAT('/repositories/', do.repo_id,'/digital_objects/', do.id) END) AS preservica_uris,
         GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%collections.library.yale.edu%' THEN CONCAT('/repositories/', do.repo_id,'/digital_objects/', do.id) END) AS dcs_uris,
-        GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%https://beineckelibrary.aviaryplatform.com%'THEN CONCAT('/repositories/', do.repo_id,'/digital_objects/', do.id) END) AS aviary_uris,
+        GROUP_CONCAT(DISTINCT CASE WHEN fv.file_uri LIKE '%aviaryplatform.com%'THEN CONCAT('/repositories/', do.repo_id,'/digital_objects/', do.id) END) AS aviary_uris,
         CONCAT('/repositories/', ao.repo_id,'/digital_objects/', ao.id) AS archivalobject_uri
       FROM digital_object do
       LEFT JOIN file_version fv ON fv.digital_object_id = do.id
